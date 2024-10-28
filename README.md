@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Real-time Comment System
 
-## Getting Started
+A real-time comment system built using Next.js, MySQL, Material-UI (MUI), and Socket.io. This application allows users to post comments in real-time, where comments appear instantly without page refresh.
+Features
+    
+    Real-time comments: Users can post and view comments instantly, without refreshing the page.
+    MySQL integration: Persistent data storage using a MySQL database.
+    Socket.io: Real-time WebSocket communication for instant updates.
+    Material-UI (MUI): Styled using Material-UI components and TailwindCSS.
+    Date formatting: Dates are formatted using date-fns.
 
-First, run the development server:
+Technologies Used
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    Frontend: React (Next.js), Material-UI (MUI), TailwindCSS
+    Backend: Node.js (Express)
+    Database: MySQL
+    Real-time Communication: Socket.io
+    Styling: Tailwind CSS, MUI, Bootstrap
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Getting Started
+Prerequisites
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+    Node.js (v18 or above)
+    MySQL database set up locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Installation
 
-## Learn More
+    Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
+    bash
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+git clone https://github.com/AmanMahor21/Real-time-comment-system.git
+cd Real-time-comment-system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies:
 
-## Deploy on Vercel
+bash
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+npm install
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set up environment variables:
+
+Create a .env file in the root of your project and include your database configuration.
+
+bash
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=comments
+
+Set up MySQL:
+
+Create a MySQL database named comments, and import the SQL schema (if needed).
+
+Run the development server:
+
+bash
+
+    npm run dev
+
+    Open your browser and navigate to http://localhost:3000.
+
+Scripts
+
+    npm run dev: Starts the development server.
+    npm run build: Builds the Next.js app for production.
+    npm run start: Starts the production server.
