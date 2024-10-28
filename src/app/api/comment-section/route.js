@@ -1,22 +1,21 @@
 import connection from "@/app/lib/db";
 import { NextResponse } from "next/server"; // Use NextResponse
 
+// Receiving all the comment data from the DB
 export async function GET() {
   try {
     const db = await connection();
     const [data] = await db.execute("SELECT * from users_list");
-    // console.log(data);
-
     return NextResponse.json(data);
+
   } catch (error) {
     console.log(error, "Error while fetching all users from DB");
-    // return new Response(JSON.stringify({ error: "Failed to fetch users" }));
     return NextResponse.json({ error: "Failed to fetch users" });
   }
 }
 
+// Inserting new comment to the DB
 export async function POST(req) {
-  console.log("i m here");
   try {
     const db = await connection();
     const body = await req.json();

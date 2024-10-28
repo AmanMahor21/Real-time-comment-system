@@ -6,7 +6,7 @@ const useSocket = (setUsers) => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    // stat socket connection
+    // start socket connection
     socketRef.current = io({
       path: "/api/socket",
       transports: ["websocket"],
@@ -21,7 +21,7 @@ const useSocket = (setUsers) => {
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
-        socketRef.current = null; // Clear the socket reference
+        socketRef.current = null; 
       }
     };
   }, [setUsers]);

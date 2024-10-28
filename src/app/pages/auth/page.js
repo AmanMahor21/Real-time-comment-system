@@ -1,36 +1,53 @@
 "use client";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useUser } from "../../store/store";
 import { useState } from "react";
-import useLoginGuest from "@/services/loginService";
-import { Height } from "@mui/icons-material";
+import { getLogin } from "@/services/request";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [input, setInput] = useState("");
-  const { setUserInfo } = useUser();
-  const loginGuest = useLoginGuest(setUserInfo);
+  const router = useRouter();
 
+  //Authenticating the user to redirect homepage
   const handleLogin = async () => {
     if (!input) {
-      console.log("Enter a username");
       return;
     }
-    loginGuest(input);
+    getLogin(input).then((response) => {
+      const userData = {
+        id: response?.sessionID,
+        name: input
+      }
+      if (response) {
+        sessionStorage.setItem(
+          "auth",
+          JSON.stringify(userData)
+        );
+
+        router.push("/")
+      }
+    })
   };
+  const onEnterLogin_Btn = (e) => {
+    if (e.key == "Enter") {
+      handleLogin()
+    }
+  }
+
 
   return (
-    <div className="flex flex-col items-center justify-center h-full px-6">
-      <div className="w-1/2 h-3/4 s rounded-3xl flex flex-col justify-between items-center frosted_glass">
+    <div className="flex flex-col items-center justify-center h-[100vh] px-6">
+      <div className="w-4/5 h-3/4 sm:w-1/2 s rounded-3xl flex flex-col justify-between items-center frosted_glass">
         <p className="text-center p-4 text-3xl">Login</p>
         <div className="flex flex-col text-left mx-5">
           <h3 className="text-violet-700 text-4xl">Hello,</h3>
           <h3 className="text-[#33276C87] mb-4">Welcome!</h3>
-          {/* <h3 className="text-blue-600 mb-4">Welcome!</h3> */}
           <TextField
             id="outlined-basic"
             label="Username"
             variant="outlined"
+            onKeyDown={onEnterLogin_Btn}
             onChange={(e) => setInput(e.target.value)}
           />
         </div>

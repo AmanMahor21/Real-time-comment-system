@@ -1,15 +1,16 @@
 import axios from "axios";
 import { format } from "date-fns";
 
-const postComment = async (userInfo, newComment) => {
-  console.log(userInfo, newComment);
+//API for sending comments to DB
+const postComment = async (name, newComment) => {
+  console.log(name, newComment);
 
   const currTime = format(new Date(), "yyyy-MM-dd hh:mm:ss");
   console.log(currTime);
 
   try {
     const response = await axios.post("/api/comment-section", {
-      name: userInfo.username,
+      name: name,
       comment: newComment,
       time: currTime,
     });
@@ -20,6 +21,7 @@ const postComment = async (userInfo, newComment) => {
   }
 };
 
+// API for reciving all comment from DB
 const getComment = async () => {
   try {
     const response = await axios.get("/api/comment-section");

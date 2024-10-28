@@ -2,30 +2,32 @@
 import React, { useEffect, useState } from "react";
 import { Typography, TextField, Box } from "@mui/material";
 import { format } from "date-fns";
-import { useUser } from "../store/store";
 import { postComment } from "@/services/commentService";
 import { getComment } from "@/services/commentService";
-import { useRouter } from "next/navigation";
 import useSocket from "@/hooks/useSocket";
 import Button from "@mui/material/Button";
-
+import CommentList from "./CommentList";
 const Comment = () => {
   const [users, setUsers] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const { userInfo } = useUser();
-  const router = useRouter();
+  const [name, setName] = useState("");
 
   const socket = useSocket(setUsers);
 
+  // Fetching all comments from DB 
   useEffect(() => {
     getComment().then((data) => data?.length > 0 && setUsers(data.reverse()));
+    const sessionData = JSON.parse(sessionStorage.getItem("auth"));
+    setName(sessionData.name);
     console.log(newComment, "comment");
-  }, [userInfo]);
+   
+  }, []);
 
+  // Sending comment to socketIO to broadcast all user
   const handleComment = () => {
     console.log("post");
     if (newComment.trim() == "") return;
-    postComment(userInfo, newComment);
+    postComment(name, newComment);
 
     const currTime = format(new Date(), "yyyy-MMM-dd HH:mm:ss");
 
@@ -33,7 +35,7 @@ const Comment = () => {
     if (socket) {
       console.log("Emitting new comment", newComment);
       socket.emit("newComment", {
-        username: userInfo.username,
+        username: name,
         comment: newComment,
         timestamp: currTime,
       });
@@ -88,29 +90,7 @@ const Comment = () => {
           Send
         </Button>
       </Box>
-
-      {users &&
-        users.map((ele, index) => {
-          const formattedDate = format(
-            new Date(ele.timestamp),
-            "yyyy-MMM-dd HH:mm:ss"
-          );
-
-          return (
-            <div
-              key={index}
-              className="flex justify-start flex-col align-content-center rounded-xl border-2 !border-slate-600 px-3 py-2 mb-2 shadow-lg hover:bg-blend-darken"
-            >
-              <div className="justify-between flex">
-                <span className="font-semibold text-2xl">{ele.username}</span>
-                <span className="text-sm align-content-center ">
-                  {formattedDate}
-                </span>
-              </div>
-              <div className="text-lg">{ele.comment}</div>
-            </div>
-          );
-        })}
+      <CommentList users={users} name={name}/>
     </div>
   );
 };
