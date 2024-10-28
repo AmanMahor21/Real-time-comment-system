@@ -45,10 +45,10 @@
 
   ##### bash
 
-1. DB_HOST=localhost
-2. DB_USER=root
-3. DB_PASSWORD=your_password
-4. DB_NAME=comments
+1. HOST=localhost
+2. USER=root
+3. PASSWORD=your_password
+4. DATABASE=comments
 
  ## Set up MySQL:
 
